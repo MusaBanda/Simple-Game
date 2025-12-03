@@ -3,18 +3,17 @@ from pydantic import BaseModel, Field
 
 
 class StoryOptionLLM(BaseModel):
-    text: str = Field(description="The text of the option presented to the reader.")   
-    node_id: Dict[str, Any] = Field(description="The next node that this option leads to.")
+    text: str = Field(description="the text of the option shown to the user")
+    nextNode: Dict[str, Any] = Field(description="the next node content and its options")
+
 
 class StoryNodeLLM(BaseModel):
-    content: str = Field(description="The content or situation described at this node of the story.")
-    is_ending: bool = Field(description="Indicates if this node is an ending of the story.")
-    is_winning_ending: bool = Field(description="Indicates if this ending is a winning ending.")
-    options: Optional[List[StoryOptionLLM]] = Field(
-        default=None,
-        description="A list of options available at this node, each leading to another node."
-    )
+    content: str = Field(description="The main content of the story node")
+    isEnding: bool = Field(description="Whether this node is an ending node")
+    isWinningEnding: bool = Field(description="Whether this node is a winning ending node")
+    options: Optional[List[StoryOptionLLM]] = Field(default=None, description="The options for this node")
 
-    class StoryLLMResponse(BaseModel):
-        title: str = Field(description="The title of the story.")
-        root_node: StoryNodeLLM = Field(description="The root node of the story from which it begins.")
+
+class StoryLLMResponse(BaseModel):
+    title: str = Field(description="The title of the story")
+    rootNode: StoryNodeLLM = Field(description="The root node of the story")
